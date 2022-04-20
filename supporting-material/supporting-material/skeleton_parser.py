@@ -76,14 +76,28 @@ of the necessary SQL tables for your database.
 def parseJson(json_file):
     with open(json_file, 'r') as f:
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
-        print(items)
+        
+        # files
+        items_file = open('items.dat', 'a')
+        bidders_file = open('bidders.dat', 'a')
+        sellers_file = open('sellers.dat', 'a')
+        bids_file = open('bids.dat', 'a')
+        categories_file = open('categories.dat', 'a')
+        
         for item in items:
             """
             TODO: traverse the items dictionary to extract information from the
             given `json_file' and generate the necessary .dat files to generate
             the SQL tables based on your relation design
             """
+            
             pass
+        
+        items_file.close()
+        bidders_file.close()
+        sellers_file.close()
+        bids_file.close()
+        categories_file.close()
 
 """
 Loops through each json files provided on the command line and passes each file

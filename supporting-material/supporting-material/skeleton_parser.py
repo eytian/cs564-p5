@@ -90,8 +90,11 @@ def parseJson(json_file):
             given `json_file' and generate the necessary .dat files to generate
             the SQL tables based on your relation design
             """
-            
-            pass
+            # item is a dictionary representing the current row
+            # items table
+            items_file.write(item['ItemID'] + '|\"') # ItemID, primary key
+            items_file.write(item['Name'] + '\"|') # name of the item
+            items_file.write(item['Currently'] + '|\n') # current highest bid
         
         items_file.close()
         bidders_file.close()

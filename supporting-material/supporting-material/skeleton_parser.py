@@ -141,7 +141,7 @@ def parseJson(json_file):
                     bids_file.write(item['ItemID'] + '|')
                     bids_file.write('\"' + bid['Bidder']['UserID'] + '\"')
                     bids_file.write('\"' + bid['Amount'] + '\"')
-                    bids_file.write('\"' + bid['Time'] + '\"')
+                    bids_file.write('\"' + bid['Time'] + '\"\n')
 
             # categories table
             # an item's categories each get a row

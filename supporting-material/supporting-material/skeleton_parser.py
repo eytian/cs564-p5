@@ -93,7 +93,7 @@ def parseJson(json_file):
             # item is a dictionary representing the current row
             # items table
             items_file.write(item['ItemID'] + '|') # ItemID, primary key
-            items_file.write('\"' + item['Name'] + '\"|') # name of the item
+            items_file.write('\"' + item['Name'].replace('\"', '\"\"') + '\"|') # name of the item
             items_file.write('\"' + transformDollar(item['Currently']) + '\"|') # current highest bid
             try:
                 items_file.write(transformDollar('\"' + item['Buy_Price'] + '\"|')) # optionally list buy price
@@ -101,11 +101,11 @@ def parseJson(json_file):
                 items_file.write('\"null\"|')
             items_file.write(transformDollar('\"' + item['First_Bid']) + '\"|') # initial bid
             items_file.write(item['Number_of_Bids'] + '|') # int data type
-            items_file.write('\"' + transformDttm(item['Started']) + '\"|')
-            items_file.write('\"' + transformDttm(item['Ends']) + '\"|')
-            items_file.write('\"' + item['Seller']['UserID'] + '\"|')
+            items_file.write('\"' + transformDttm(item['Started']).replace('\"', '\"\"') + '\"|')
+            items_file.write('\"' + transformDttm(item['Ends']).replace('\"', '\"\"') + '\"|')
+            items_file.write('\"' + item['Seller']['UserID'].replace('\"', '\"\"') + '\"|')
             if item['Description'] is not None:
-                items_file.write('\"' + str(item['Description'].replace('\"', '\"\"') + '\"'))
+                items_file.write('\"' + str(item['Description'].replace('\"', '\"\"') + '\"\n'))
             else:
                 items_file.write('\"null\"\n')
 

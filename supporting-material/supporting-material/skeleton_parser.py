@@ -98,7 +98,7 @@ def parseJson(json_file):
             try:
                 items_file.write(transformDollar('\"' + item['Buy_Price'] + '\"|')) # optionally list buy price
             except KeyError:
-                items_file.write('\"-1\"|')
+                items_file.write('\"null\"|')
             items_file.write(transformDollar('\"' + item['First_Bid']) + '\"|') # initial bid
             items_file.write(item['Number_of_Bids'] + '|') # int data type
             items_file.write('\"' + transformDttm(item['Started']) + '\"|')
@@ -107,15 +107,41 @@ def parseJson(json_file):
             if item['Description'] is not None:
                 items_file.write('\"' + str(item['Description'].replace('\"', '\"\"') + '\"'))
             else:
-                items_file.write('\"-1\"\n')
+                items_file.write('\"null\"\n')
+
+            # bidders table
+            if item['Number_of_Bids'] != '0': # make sure there are bidders
+                current_bids = item['Bids']
+                for bid_dict in current_bids:
+                    bid = bid_dict['Bid']
+                    bidder = bid['Bidder']
+                    bidders_file.write('\"' + bidder['UserID'] + '\"|')
+                    bidders_file.write(bidder['Rating'] + '|')
+                    try:
+                        bidders_file.write('\"' + bidder['Location'].replace('\"', '\"\"') + '\"|')
+                    except KeyError:
+                        bidders_file.write('\"null\"|')
+                    try:
+                        bidders_file.write('\"' + bidder['Country'] + '\"\n')
+                    except KeyError:
+                        bidders_file.write('\"null\"\n')
+            
+            # sellers table
+            # every item must have a seller, so no need to check
+            sellers_file.write('\"' + item['Seller']['UserID'] + '\"|')
+            sellers_file.write(item['Seller']['Rating'] + '|')
+            sellers_file.write('\"' + item['Location'].replace('\"', '\"\"') + '\"|')
+            sellers_file.write('\"' + item['Country'] + '\"\n')
             
             # bids table
             if item['Number_of_Bids'] != '0': # make sure there are bids
                 current_bids = item['Bids']
-                for bid in current_bids:
+                for bid_dict in current_bids:
+                    bid = bid_dict['Bid']
                     bids_file.write(item['ItemID'] + '|')
-                    bids_file.write('\"' + bid['Bidder']['UserID'] + + '\"')
-                    # bids_file.write()
+                    bids_file.write('\"' + bid['Bidder']['UserID'] + '\"')
+                    bids_file.write('\"' + bid['Amount'] + '\"')
+                    bids_file.write('\"' + bid['Time'] + '\"')
 
             # categories table
             # an item's categories each get a row

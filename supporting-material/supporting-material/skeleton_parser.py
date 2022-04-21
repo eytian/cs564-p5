@@ -94,7 +94,19 @@ def parseJson(json_file):
             # items table
             items_file.write(item['ItemID'] + '|\"') # ItemID, primary key
             items_file.write(item['Name'] + '\"|') # name of the item
-            items_file.write(item['Currently'] + '|\n') # current highest bid
+            items_file.write(transformDollar(item['Currently']) + '|') # current highest bid
+            items_file.write(transformDollar(item['First_Bid']) + '|') # initial bid
+            try:
+                items_file.write(transformDollar(item['Buy_Price'] + '|'))
+            except KeyError:
+                items_file.write('-1|')
+            items_file.write(item['Number_of_Bids'] + '|')
+            items_file.write(transformDttm(item['Started']) + '|')
+            items_file.write(transformDttm(item['Ends']) + '|')
+            items_file.write(item['Seller']['UserID'] + '|')
+            
+            
+
         
         items_file.close()
         bidders_file.close()

@@ -92,20 +92,36 @@ def parseJson(json_file):
             """
             # item is a dictionary representing the current row
             # items table
-            items_file.write(item['ItemID'] + '|\"') # ItemID, primary key
-            items_file.write(item['Name'] + '\"|') # name of the item
-            items_file.write(transformDollar(item['Currently']) + '|') # current highest bid
-            items_file.write(transformDollar(item['First_Bid']) + '|') # initial bid
+            items_file.write(item['ItemID'] + '|') # ItemID, primary key
+            items_file.write('\"' + item['Name'] + '\"|') # name of the item
+            items_file.write('\"' + transformDollar(item['Currently']) + '\"|') # current highest bid
             try:
-                items_file.write(transformDollar(item['Buy_Price'] + '|'))
+                items_file.write(transformDollar('\"' + item['Buy_Price'] + '\"|')) # optionally list buy price
             except KeyError:
-                items_file.write('-1|')
-            items_file.write(item['Number_of_Bids'] + '|')
-            items_file.write(transformDttm(item['Started']) + '|')
-            items_file.write(transformDttm(item['Ends']) + '|')
-            items_file.write(item['Seller']['UserID'] + '|')
+                items_file.write('\"-1\"|')
+            items_file.write(transformDollar('\"' + item['First_Bid']) + '\"|') # initial bid
+            items_file.write(item['Number_of_Bids'] + '|') # int data type
+            items_file.write('\"' + transformDttm(item['Started']) + '\"|')
+            items_file.write('\"' + transformDttm(item['Ends']) + '\"|')
+            items_file.write('\"' + item['Seller']['UserID'] + '\"|')
+            if item['Description'] is not None:
+                items_file.write('\"' + str(item['Description'].replace('\"', '\"\"') + '\"'))
+            else:
+                items_file.write('\"-1\"\n')
             
-            
+            # bids table
+            if item['Number_of_Bids'] != '0': # make sure there are bids
+                current_bids = item['Bids']
+                for bid in current_bids:
+                    bids_file.write(item['ItemID'] + '|')
+                    bids_file.write('\"' + bid['Bidder']['UserID'] + + '\"')
+                    # bids_file.write()
+
+            # categories table
+            # an item's categories each get a row
+            for category in item['Category']:
+                categories_file.write(item['ItemID'] + '|')
+                categories_file.write('\"' + category + '\"\n')
 
         
         items_file.close()

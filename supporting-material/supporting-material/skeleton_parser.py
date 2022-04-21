@@ -140,9 +140,9 @@ def parseJson(json_file):
                 for bid_dict in current_bids:
                     bid = bid_dict['Bid']
                     bids_file.write(item['ItemID'] + '|')
-                    bids_file.write('\"' + bid['Bidder']['UserID'] + '\"')
-                    bids_file.write('\"' + bid['Amount'] + '\"')
-                    bids_file.write('\"' + bid['Time'] + '\"\n')
+                    bids_file.write('\"' + bid['Bidder']['UserID'] + '\"|')
+                    bids_file.write('\"' + bid['Amount'] + '\"|')
+                    bids_file.write('\"' + bid['Time'] + '\"\n') # in combination with UserID, this creates a primary key for each bid
 
             # categories table
             # an item's categories each get a row

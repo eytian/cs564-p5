@@ -5,12 +5,12 @@
 .import bidders.dat Bidders
 
 .import locations.dat Locations
-update locations set location = null where location  = "null";
+update locations set Location = null where Location  = "null";
 
 .import items.dat Items
-update items set buy_price = null where Buy_price = "null";
-update items set birst_bid = null where First_bid  = "null";
-update items set description = null where Description  = "null";
+update items set Buy_price = null where Buy_price = "null";
+update items set First_bid = null where First_bid  = "null";
+update items set Description = null where Description  = "null";
 
 .import categories.dat Categories
 

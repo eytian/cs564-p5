@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM Sellers, Bidders WHERE Sellers.user_id = Bidders.user_id;

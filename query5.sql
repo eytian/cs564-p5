@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM Sellers WHERE Sellers.rating > 1000;

@@ -83,6 +83,7 @@ def parseJson(json_file):
         sellers_file = open('sellers.dat', 'a')
         bids_file = open('bids.dat', 'a')
         categories_file = open('categories.dat', 'a')
+        locations_file = open('locations.dat', 'a')
         
         for item in items:
             """
@@ -149,12 +150,17 @@ def parseJson(json_file):
                 categories_file.write(item['ItemID'] + '|')
                 categories_file.write('\"' + category + '\"\n')
 
+            # locations table
+            # an item's categories each get a row
+            locations_file.write(item['ItemID'] + '|')
+            locations_file.write('\"' + item['Location'].replace('\"', '\"\"') + '\"\n')
         
         items_file.close()
         bidders_file.close()
         sellers_file.close()
         bids_file.close()
         categories_file.close()
+        locations_file.close()
 
 """
 Loops through each json files provided on the command line and passes each file

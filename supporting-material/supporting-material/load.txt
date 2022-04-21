@@ -4,11 +4,13 @@
 
 .import bidders.dat Bidders
 
-.import items.dat Items
-update items set buy_price = null where buy_price = "null";
-update items set first_bid = null where first_bid  = "null";
-update items set description = null where description  = "null";
 
-.import category.dat Categories
+
+.import items.dat Items
+update items set Buy_price = null where Buy_price = "null";
+update items set First_bid = null where First_bid  = "null";
+update items set Description = null where Description  = "null";
+
+.import categories.dat Categories
 
 .import bids.dat Bids

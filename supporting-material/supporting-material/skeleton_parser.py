@@ -83,7 +83,6 @@ def parseJson(json_file):
         sellers_file = open('sellers.dat', 'a')
         bids_file = open('bids.dat', 'a')
         categories_file = open('categories.dat', 'a')
-        locations_file = open('locations.dat', 'a')
         
         for item in items:
             """
@@ -95,12 +94,12 @@ def parseJson(json_file):
             # items table
             items_file.write(item['ItemID'] + '|') # ItemID, primary key
             items_file.write('\"' + item['Name'].replace('\"', '\"\"') + '\"|') # name of the item
-            items_file.write('\"' + transformDollar(item['Currently']) + '\"|') # current highest bid
+            items_file.write(transformDollar(item['Currently']) + '|') # current highest bid
             try:
-                items_file.write(transformDollar('\"' + item['Buy_Price'] + '\"|')) # optionally list buy price
+                items_file.write(transformDollar(item['Buy_Price']) + '|') # optionally list buy price
             except KeyError:
-                items_file.write('\"null\"|')
-            items_file.write(transformDollar('\"' + item['First_Bid']) + '\"|') # initial bid
+                items_file.write('-1|')
+            items_file.write(transformDollar(item['First_Bid']) + '|') # initial bid
             items_file.write(item['Number_of_Bids'] + '|') # int data type
             items_file.write('\"' + transformDttm(item['Started']).replace('\"', '\"\"') + '\"|')
             items_file.write('\"' + transformDttm(item['Ends']).replace('\"', '\"\"') + '\"|')
@@ -108,7 +107,7 @@ def parseJson(json_file):
             if item['Description'] is not None:
                 items_file.write('\"' + str(item['Description'].replace('\"', '\"\"') + '\"\n'))
             else:
-                items_file.write('\"null\"\n')
+                items_file.write('\"NULL\"\n')
 
             # bidders table
             if item['Number_of_Bids'] != '0': # make sure there are bidders
@@ -117,15 +116,15 @@ def parseJson(json_file):
                     bid = bid_dict['Bid']
                     bidder = bid['Bidder']
                     bidders_file.write('\"' + bidder['UserID'] + '\"|')
-                    bidders_file.write(bidder['Rating'] + '|')
+                    bidders_file.write(bidder['Rating'] + '|') # double rating
                     try:
                         bidders_file.write('\"' + bidder['Location'].replace('\"', '\"\"') + '\"|')
                     except KeyError:
-                        bidders_file.write('\"null\"|')
+                        bidders_file.write('\"NULL\"|')
                     try:
                         bidders_file.write('\"' + bidder['Country'] + '\"\n')
                     except KeyError:
-                        bidders_file.write('\"null\"\n')
+                        bidders_file.write('\"NULL\"\n')
             
             # sellers table
             # every item must have a seller, so no need to check
@@ -141,26 +140,21 @@ def parseJson(json_file):
                     bid = bid_dict['Bid']
                     bids_file.write(item['ItemID'] + '|')
                     bids_file.write('\"' + bid['Bidder']['UserID'] + '\"|')
-                    bids_file.write('\"' + bid['Amount'] + '\"|')
-                    bids_file.write('\"' + bid['Time'] + '\"\n') # in combination with UserID, this creates a primary key for each bid
+                    bids_file.write(bid['Amount'] + '|') # in combination with ItemID and UserID, this creates a primary key for each bid
+                    bids_file.write('\"' + bid['Time'] + '\"\n') 
 
             # categories table
-            # an item's categories each get a row
-            for category in item['Category']:
+            # an item's categories each get a row, which together form a tuple as a primary key
+            categories = list(set(item['Category']))
+            for category in categories:
                 categories_file.write(item['ItemID'] + '|')
                 categories_file.write('\"' + category + '\"\n')
-
-            # locations table
-            # an item's categories each get a row
-            locations_file.write(item['ItemID'] + '|')
-            locations_file.write('\"' + item['Location'].replace('\"', '\"\"') + '\"\n')
         
         items_file.close()
         bidders_file.close()
         sellers_file.close()
         bids_file.close()
         categories_file.close()
-        locations_file.close()
 
 """
 Loops through each json files provided on the command line and passes each file

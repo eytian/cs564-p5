@@ -1,1 +1,0 @@
-SELECT COUNT(*) FROM Sellers u, Bidders b, Locations l WHERE l.location = "New York" AND u.location_id = l.location_id OR b.location_id = l.location_id;

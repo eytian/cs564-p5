@@ -1,0 +1,15 @@
+.separator |
+
+.import items_sorted.dat Items
+UPDATE Items SET Buy_Price = NULL WHERE Buy_Price = -1;
+UPDATE Items SET Description = NULL WHERE Description = "NULL";
+
+.import bidders_sorted.dat Bidders
+UPDATE Bidders SET Location = NULL WHERE Location = "NULL";
+UPDATE Bidders SET Country = NULL WHERE Location = "NULL";
+
+.import sellers_sorted.dat Sellers
+
+.import bids_sorted.dat Bids
+
+.import categories_sorted.dat Categories

@@ -1,1 +1,0 @@
-SELECT item_id FROM Items ORDER BY currently desc LIMIT 1;

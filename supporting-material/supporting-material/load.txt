@@ -13,4 +13,3 @@ UPDATE Bidders SET Country = NULL WHERE Location = "NULL";
 .import bids_sorted.dat Bids
 
 .import categories_sorted.dat Categories
-

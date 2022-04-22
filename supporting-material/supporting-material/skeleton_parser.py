@@ -140,7 +140,7 @@ def parseJson(json_file):
                     bid = bid_dict['Bid']
                     bids_file.write(item['ItemID'] + '|')
                     bids_file.write('\"' + bid['Bidder']['UserID'] + '\"|')
-                    bids_file.write(bid['Amount'] + '|') # in combination with ItemID and UserID, this creates a primary key for each bid
+                    bids_file.write(transformDollar(bid['Amount']) + '|') # in combination with ItemID and UserID, this creates a primary key for each bid
                     bids_file.write('\"' + bid['Time'] + '\"\n') 
 
             # categories table
